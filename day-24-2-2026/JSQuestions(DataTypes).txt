@@ -1,0 +1,114 @@
+***************DataTypes Questions*************
+***********************1**********************
+How many data types are there in JavaScript?
+
+JavaScript has 8 data types.
+
+7 Primitive types:
+
+Number
+
+String
+Boolean
+
+Undefined
+
+Null
+
+Symbol
+
+BigInt
+
+1 Non-Primitive type:
+
+Object (which includes arrays, functions, dates, etc.)
+
+Primitives are immutable and stored by value, while objects are stored by reference.
+
+******************************2***************************
+What is the difference between null and undefined?
+
+undefined means a variable has been declared but not assigned a value.
+null is an intentional assignment that represents “no value” or “empty value”.
+
+Key difference:
+
+undefined → system assigned
+
+null → developer assigned
+
+*****************************3*****************************
+Why does typeof null return "object"?
+
+typeof null returns "object" due to a historical bug in JavaScript.
+In the early implementation, values were represented in binary format, and null was incorrectly tagged as an object.
+This behavior remains for backward compatibility.
+
+console.log(typeof null); // "object"
+
+This is one of JavaScript’s known legacy bugs.
+****************************4*******************************
+What is the difference between primitive and reference types?
+
+Primitive types store actual values directly and are immutable.
+Reference types (objects) store a reference (memory address) to the value.
+
+Differences:
+
+Primitives → copied by value
+
+Objects → copied by reference
+
+Primitives → stored separately
+
+Objects → shared reference
+***************************5*************************************
+What happens when you copy an object to another variable?
+
+When you copy an object, you copy the reference, not the actual object.
+Both variables point to the same memory location.
+So modifying one will affect the other.
+let obj1 = { name: "John" };
+let obj2 = obj1;
+
+obj2.name = "JS";
+
+console.log(obj1.name); // "JS"
+
+To avoid this, we can create a shallow copy using spread operator {...obj} or deep copy using structured cloning.
+
+********************6***************
+Is JavaScript pass-by-reference?
+JavaScript is pass-by-value.
+But for objects, the value passed is the reference.
+
+
+*******************7***************************88
+Are functions primitive or objects?
+Functions are objects in JavaScript.
+Although typeof returns "function", internally functions are special callable objects.
+
+They can:
+
+Have properties
+
+Be passed as arguments
+
+Return from other functions
+
+That’s why JavaScript is called a first-class function language.
+
+******************8*******************
+Are arrays primitive?
+No. Arrays are objects.
+console.log(typeof []); // "object"
+To properly check array:
+Array.isArray([]);
+Arrays are specialized objects with indexed elements and length property.
+
+***********************9******************
+What is the difference between primitive and reference types?
+Primitive              	Reference
+Stored by value	       Stored by reference
+Immutable	           Mutable
+Compared by value	   Compared by reference
