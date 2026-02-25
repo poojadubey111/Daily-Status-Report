@@ -1,0 +1,13 @@
+function fibo(n){
+    if(n === 0) return 0;
+    if(n === 1) return 1;
+    return fibo(n-1)+fibo(n-2);
+}
+
+function printFibo(count){
+    for(let i=0;i<=count;i++){
+        console.log(fibo(i));
+    }
+}
+
+printFibo(10);
