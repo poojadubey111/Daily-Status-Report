@@ -1,0 +1,147 @@
+********************1**********************
+1. What is the Event Loop in JavaScript?
+The Event Loop is a mechanism that allows JavaScript (which is single-threaded) to perform non-blocking asynchronous operations.
+It continuously checks:
+
+Is the call stack empty?
+
+If yes → Take the first callback from the task queue (or microtask queue) and push it to the call stack.
+
+It enables async behavior like:
+
+setTimeout
+
+Promises
+
+fetch
+
+DOM events
+
+***************2***********************************
+2.Is JavaScript single-threaded?
+
+Answer:
+
+Yes, JavaScript is single-threaded, meaning it has:
+
+One call stack
+
+One main thread of execution
+
+However, browsers and Node.js provide Web APIs / C++ APIs that handle async tasks in the background.
+
+
+**********************3***********************************
+3. What are the main components involved in the Event Loop?
+
+Answer:
+
+Call Stack – Executes synchronous code.
+
+Web APIs (Browser) / Node APIs – Handle async operations.
+
+Callback Queue (Task Queue / Macrotask Queue) – Stores async callbacks.
+
+Microtask Queue – Stores promise callbacks.
+
+Event Loop – Moves tasks from queues to the stack.
+
+**********************4***********************************
+
+4. Why does setTimeout(fn, 0) not execute immediately?
+
+Answer:
+
+Because:
+
+It goes to the Web API
+
+Then moves to the macrotask queue
+
+It executes only when:
+
+Call stack is empty
+
+All microtasks are completed
+
+So even with 0ms, it waits for the event loop cycle.
+
+**********************5***********************************
+5. What is the difference between Microtask and Macrotask?
+
+Answer:
+
+Microtask	                                                   Macrotask
+Higher priority	                                            Lower priority
+Runs after current stack is empty	                        Runs after microtasks complete
+Examples: Promise.then, queueMicrotask, MutationObserver	Examples: setTimeout, setInterval, setImmediate, DOM events
+
+ The event loop executes all microtasks before moving to the next macrotask.
+
+ ***************************6**********************************
+ 7. What is the Call Stack?
+
+Answer:
+
+The Call Stack:
+
+Tracks function execution
+
+Uses LIFO (Last In First Out)
+
+Executes synchronous code
+
+***************************6**********************************
+. What happens if the call stack never becomes empty?
+
+Answer:
+
+The Event Loop cannot push new tasks into the stack.
+
+This causes:
+
+UI freeze (browser)
+
+Blocking behavior
+
+No async code execution
+
+
+***************************7**********************************
+
+9. What is queueMicrotask()?
+queueMicrotask() schedules a function in the microtask queue.
+
+Example:
+
+queueMicrotask(() => console.log("Microtask"));
+
+It behaves like Promise.then() in priority.
+
+
+***************************8*************************************
+. What is starvation in Event Loop?
+
+Answer:
+
+If microtasks keep adding more microtasks:
+
+function repeat() {
+  Promise.resolve().then(repeat);
+}
+repeat();
+
+Macrotasks never run → this is microtask starvation.
+
+***************************9************************************
+9. How does async/await relate to the Event Loop?
+
+Answer:
+
+async/await is syntactic sugar over Promises.
+
+When await is encountered:
+
+Function pauses
+
+Remaining code goes into microtask queue
