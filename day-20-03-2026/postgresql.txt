@@ -1,0 +1,236 @@
+Basic Level
+1. What is PostgreSQL?
+
+👉 Answer:
+PostgreSQL is an open-source relational database management system that uses SQL to store and manage structured data in tables.
+---------------------------------------------------------------------
+
+
+2. What is a relational database?
+
+👉 Answer:
+A relational database stores data in tables and establishes relationships between them using keys like primary key and foreign key.
+----------------------------------------------------------------------------
+
+3. What is a table in PostgreSQL?
+
+👉 Answer:
+A table is a collection of rows and columns used to store structured data.
+------------------------------------------------------------------------------
+4. Difference between row and column?
+
+👉 Answer:
+
+Row → single record
+
+Column → attribute of data
+-------------------------------------------------------------------------
+
+5. What is SQL?
+
+👉 Answer:
+SQL is a language used to interact with databases for performing CRUD operations.
+---------------------------------------------------------------------------
+🟡 Intermediate Level
+6. Why PostgreSQL is called ORDBMS?
+
+👉 Answer:
+Because it supports both relational features and object-oriented features like custom types, inheritance, and functions.
+
+7. What are advantages of PostgreSQL?
+
+👉 Answer:
+
+Open source
+
+Highly reliable (ACID)
+
+Supports complex queries
+
+JSON support
+
+Extensible
+
+8. What is schema in PostgreSQL?
+
+👉 Answer:
+A schema is a logical structure that organizes database objects like tables, views, and functions.
+
+9. What is ACID in PostgreSQL?
+
+👉 Answer:
+
+Atomicity
+
+Consistency
+
+Isolation
+
+Durability
+
+🔴 Advanced Level (Interview Trap Questions 🔥)
+10. Difference between PostgreSQL and NoSQL?
+
+👉 Answer:
+
+PostgreSQL → structured data (tables)
+
+NoSQL → unstructured data (JSON, documents)
+
+11. Can PostgreSQL handle unstructured data?
+
+👉 Answer:
+Yes, using JSON and JSONB data types.
+
+12. What happens when you run a SQL query?
+
+👉 Answer:
+
+Query parser checks syntax
+
+Planner creates execution plan
+
+Executor runs query
+
+Returns result
+
+13. Why PostgreSQL is preferred in enterprise apps?
+
+👉 Answer:
+Because of reliability, scalability, strong consistency, and advanced features.
+
+🧩 Interview Trick Question ⚠️
+❓ Is PostgreSQL only relational?
+
+👉 Best Answer:
+No. PostgreSQL is an object-relational database because it also supports advanced features like JSON, custom data types, and functions.
+
+🧠 Simple Way to Remember
+
+👉 PostgreSQL =
+Database + Tables + Relationships + SQL + Advanced Features
+
+-------------------------------------------------------------------
+
+1️⃣ Database (DB)
+
+👉 A Database is the top-level container that stores everything.
+
+✅ It contains:
+
+Schemas
+
+Tables
+
+Views
+
+Functions
+
+👉 Example:
+
+CREATE DATABASE company_db;
+-------------------------------------------------------------------
+
+
+2️⃣ Schema
+
+👉 A Schema is a logical folder inside a database
+
+It helps to:
+
+Organize tables
+
+Avoid name conflicts
+
+Group related data
+
+👉 Example:
+
+CREATE SCHEMA hr;
+CREATE SCHEMA sales;
+
+--------------------------------------------------------------------
+3️⃣ Table
+
+👉 A Table is where actual data is stored
+
+👉 It contains:
+
+Rows (records)
+
+Columns (fields)
+
+👉 Example:
+
+CREATE TABLE hr.employees (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(50),
+  salary INT
+);
+
+---------------------------------------------------------------------
+Why Schema is Important? (INTERVIEW 🔥)
+✅ 1. Organization
+
+Separate data logically
+
+✅ 2. Avoid conflicts
+
+Same table name in different schemas
+
+hr.users
+sales.users
+✅ 3. Security
+
+Control access per schema
+
+🎯 Interview Questions (VERY IMPORTANT)
+🟢 Basic
+1. What is a database?
+
+👉 A database is a collection of structured data stored electronically.
+
+2. What is a schema?
+
+👉 A schema is a logical structure that organizes database objects like tables.
+
+3. What is a table?
+
+👉 A table stores data in rows and columns.
+
+🟡 Intermediate
+4. Difference between schema and database?
+
+👉 Answer:
+
+Database → container of all data
+
+Schema → logical grouping inside database
+
+5. Can one database have multiple schemas?
+
+👉 Yes ✅
+
+6. Can two schemas have same table name?
+
+👉 Yes ✅
+Example:
+
+hr.users
+sales.users
+🔴 Advanced (Interview Trap 🔥)
+7. What is default schema in PostgreSQL?
+
+👉 Answer:
+public
+
+8. What happens if you don’t specify schema?
+
+👉 Answer:
+PostgreSQL uses public schema by default.
+
+9. How to access table with schema?
+
+👉 Answer:
+
+SELECT * FROM hr.employees;
