@@ -20,14 +20,14 @@ app.post('/users', async (req, res) => {
             'INSERT INTO managetasks.users (name,email) VALUES ($1,$2) RETURNING *',
             [name, email]
         )
-        res.status(201).json({
+        return res.status(201).json({
             success: true,
             data: result.rows[0]
         })
 
     } catch (err) {
         console.log(err);
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
             message: "Internal server error"
         })
@@ -36,7 +36,7 @@ app.post('/users', async (req, res) => {
 })
 
 //-----------------------create task------------------------------------
-app.post('/users/tasks', async (req, res) => {
+app.post('/tasks', async (req, res) => {
     try {
         // const { id } = req.params;
         const {id, assigned_to, task } = req.body;
@@ -53,13 +53,13 @@ app.post('/users/tasks', async (req, res) => {
             'INSERT INTO managetasks.tasks_info (user_id,assigned_to,task ) VALUES ($1, $2, $3) RETURNING *',
             [id, assigned_to, task]
         );
-        res.status(201).json({
+        return res.status(201).json({
             success: true,
             data: result.rows[0]
         });
     } catch (err) {
         console.log(err);
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
             message: "Internal server error"
         })
@@ -69,7 +69,7 @@ app.post('/users/tasks', async (req, res) => {
 
 })
 //------------------------assigned-task --------------------------------------
-app.get('/users/:id/assigned-taskslist',async(req,res)=>{
+app.get('/users/:id/assigned-tasks',async(req,res)=>{
     try{
     const id = req.params.id;
 
@@ -78,20 +78,20 @@ app.get('/users/:id/assigned-taskslist',async(req,res)=>{
         [id]
     );
      if(result.rows.length === 0 ){
-        res.status(400).json({
+        return res.status(400).json({
             success: false,
             message:"User didn't assigned tasks to anyone"
         })
     }
 
-    res.status(200).json({
+    return res.status(200).json({
         success:true,
         data:result.rows
     })
 
     }catch(err){
         console.log(err);
-         res.status(500).json({
+         return res.status(500).json({
             success: false,
             message: "Internal server error"
         })
@@ -101,7 +101,7 @@ app.get('/users/:id/assigned-taskslist',async(req,res)=>{
 
 
 //--------------User task list----------------------------
-app.get('/users/:id/taskslist',async(req,res)=>{
+app.get('/users/:id/tasks',async(req,res)=>{
     try{
     const id = req.params.id;
 
@@ -110,20 +110,20 @@ app.get('/users/:id/taskslist',async(req,res)=>{
         [id]
     );
      if(result.rows.length === 0 ){
-        res.status(404).json({
+        return res.status(404).json({
             success: false,
             message:"task not found"
         })
     }
 
-    res.status(200).json({
+    return res.status(200).json({
         success:true,
         data:result.rows
     })
 
     }catch(err){
         console.log(err); 
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
             message: "Internal server error"
         })
