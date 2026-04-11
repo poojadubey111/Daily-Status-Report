@@ -1,7 +1,7 @@
 const { Sequelize } = require("sequelize");
 const { User, Role } = require("../models");
 const bcrypt = require("bcrypt");
-const user = require("../models/user");
+const {user} = require("../models/user");
 exports.createUser = async({name,email,password,role_id})=>{
 
     const hashedPassword = await bcrypt.hash(password,10);

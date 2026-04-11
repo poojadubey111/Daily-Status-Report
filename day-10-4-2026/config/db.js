@@ -14,4 +14,4 @@ const sequelize = new Sequelize(
     }
 );
 // sequelize.sync();
-module.exports = sequelize;
+module.exports = { sequelize }; 

@@ -1,7 +1,8 @@
 const { generateToken } = require("../utils/jwt");
-const {User,Role, Permission, sequelize} = require("../models");
-const permission = require("../models/permission");
-const { RolePermission } = require("../models");
+
+const { User, Role, Permission, RolePermission } = require("../models");
+// const permission = require("../models/permission");
+// const { RolePermission } = require("../models/rolePermission");
 // const RolePermission = require("../models");
 const bcrypt = require("bcrypt");
 
