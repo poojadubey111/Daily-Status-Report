@@ -1,0 +1,290 @@
+models/
+models/product.js
+
+
+module.exports=(sequelize,DataTypes)=>{
+    const Product= sequelize.define('Product',{
+         name:{
+              type:DataTypes.STRING,
+              allowNull:false
+              },
+         price:{
+           type:DataTypes.INTEGER,
+           allowNull:false
+}
+});
+
+return Product;
+
+};
+---------------------------------------------------------------------
+
+models/category.js
+module.exports = (sequelize,DataTypes)=>{
+   const Category = sequelize.define("Category",{
+              name:{
+                    type:DataTypes.STRING,
+           allowNull:false
+}
+});
+return Category; 
+}
+
+------------------------------------------------------------------------
+
+test.js 
+const { Product,Category,sequelize}= require("./models");
+
+async function run(){
+    await sequelize.sync({force:true});
+
+    const product = await Product.create({
+          name:"Laptop",
+          price:50000,
+};
+
+    const category = await Category.create({
+         name:"Electronics",
+});
+
+console.log(product.toJSON());
+console.log(category.toJSON());
+
+-------------------------------------------------------------------------
+
+model/order.js 
+
+module.exports = (sequelize,DataTypes){
+    const Order = sequelize.define('Order',{
+             total_price:{
+                     type:DataTypes.INTEGER,
+                     allowNull:false
+                     },
+              status:{
+                    type:DataTypes.STRING,
+                     allowNull:false
+                     },
+            
+});
+return Order ;
+
+ };
+--------------------------------------------------------------------------
+
+test.js
+const {order,sequelize} =require ('./models');
+
+async function run(){
+   await sequelize.sync({alter:true});
+
+   const order = await Order.create({
+          total_price:1234,
+          status:"Ordered"
+});
+
+console.log(order .toJSON());
+}
+
+--------------------------------------------------------------------------
+
+model/product.js
+
+
+module.exports=(sequelize,DataTypes)=>{
+
+   const product = sequelize.define('Product',{
+           name:{
+               type:DataTypes.STRING,
+               allowNull:false
+              },
+           price:{
+                  type:DataTypes.INTEGER,
+               allowNull:false
+              },
+});
+return product; 
+}
+----------------------------------------------------------------------------
+
+model/category.js
+
+module.exports =(sequelize,DataTypes)=>{
+ const category = sequelize.define('Category',{
+
+     name:{
+           type:DataTypes.STRING,
+           allowNull:false
+};
+});
+return category;
+} 
+
+-----------------------------------------------------------------------------
+
+models/index.js
+
+const {DataTypes } =require("sequelize");
+const sequelize = require("../db");
+const db ={};
+
+db.Product = require("./product")(sequelize,DataTypes);
+db.Category= require("./category")(sequelize,DataTypes);
+
+db.Category.hasMany(db.Product,{
+   foreignKey:"category_id",
+});
+
+db.Product.belongsTo(db.Category,{
+
+   foreignKey:"category_id",
+});
+
+
+db.sequelize = sequelize;
+module.exports = db;
+
+
+_________________________________________________________________________
+
+models/student.js
+module.exports =(sequelize,DataTypes)=>{
+
+   const Student = sequelize.define('Student',{
+             name:{
+             type:DataTypes.STRING,
+             allowNull:false
+            },
+            age:{
+             type:DataTypes.INTEGER,
+             allowNull:false
+            },
+
+});
+return Student;
+}
+
+------------------------------------------
+models/course.js
+module.exports =(sequelize,DataTypes)=>{
+  const Course= sequelize.define('Course',{
+         title:{
+               type:DataTypes.STRING,
+               allowNull:false
+            },
+         duration:{
+               type:DataTypes.INTEGER,
+               allowNull:false
+            }
+
+ });
+  return Course;
+}
+-------------------------------------------
+test.js
+const {Student,Course,sequelize} = require('./models');
+
+async function run(){
+  await sequelize.sync({ force: true });
+  const course1 = await Course.create({
+           title:"Node js",
+           duration:10
+          });
+   const course2 = await Course.create({
+           title:"Javascript",
+           duration:15
+          });
+
+  const student1 = await Student.create(
+          {
+                name:"Pooja",
+                age: 25,
+                course_id:course1.id
+          });
+  const student2= await Student.create({
+           name:"Amita",
+           age:28,
+           course_id:course1.id
+         });
+
+const students = await Student.findAll({
+include:Course,
+});
+console.log(JSON.stringify(student,null,2));
+}
+
+
+   console.log(student1.toJSON());
+console.log(student2.toJSON());
+console.log(course1.toJSON());
+console.log(course2.toJSON());
+
+}
+
+
+run();
+--------------------------------------------------------------------------------
+model/index.js
+
+
+const {DataTypes} = require('sequelize');
+const sequelize = require('../db.js');
+const db= {};
+
+db.Student= require('./student')(sequelize,DataTypes);
+db.Course= require('./course')(sequelize,DataTypes);
+
+db.Course.hasMany(db.Student,{
+             foreignKey:"course_id"
+  });
+
+db.Student.belongsTo(db.Course,{
+            foreignKey:"course_id"
+  });
+
+db.sequelize = sequelize;
+module.exports = db;
+
+
+
+
+Types of Joins in Sequelize
+
+Sequelize me mainly 3 joins use hote hain:
+
+Join Type	Sequelize Option	Meaning
+INNER JOIN	required: true	Sirf matching data
+LEFT JOIN	default (required: false)	Sab left + matching right
+RIGHT JOIN	right: true	Sab right + matching left
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          
