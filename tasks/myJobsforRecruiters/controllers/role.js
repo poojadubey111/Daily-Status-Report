@@ -1,5 +1,7 @@
 const roleService=require("../services/role")
 
+
+//----------------start create role-----------------
 exports.createRole=async(req,res)=>{
     try{
         
@@ -11,3 +13,5 @@ exports.createRole=async(req,res)=>{
 res.status(400).json({ error: err.message });
     }
 }
+
+//--------------------end------------------------------

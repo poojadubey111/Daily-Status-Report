@@ -2,12 +2,12 @@ require('dotenv').config();
 const jwt = require('jsonwebtoken');
 
 
-exports.generateToken = (user)=>{
+exports.generateToken = (user) => {
     return jwt.sign(
-        {id:user.id,email:user.email,role_id:user.role_id},
+        { id: user.id, email: user.email, role_id: user.role_id },
         process.env.JWT_SECRET,
-        
-        {expiresIn:'1h'}
+
+        { expiresIn: '1h' }
     )
 }
 // exports.verifyToken=(token)=>{

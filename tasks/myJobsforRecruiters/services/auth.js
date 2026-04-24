@@ -1,62 +1,116 @@
-const {User,Role} = require("../models");
-const bcrypt = require('bcrypt');    
-const {generateToken}=require("../utils/jwt")          
+const { User, Role } = require("../models");
+const bcrypt = require('bcrypt');
+const { generateToken } = require("../utils/jwt")
 
-// -----------------------------Register start ----------------------------------------------------------------
-exports.register = async({name,email,password,role_id}) =>{
-    // first implement validation to validate data because it is required feild so..
-    if(!name || !email || !password){
-        //if not provided throw Error
-        throw new Error("All feilds are required"); 
-    }
 
-    //i implement regex password because it is required 
 
+const validatePassword = (password) => {
     const regex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[\W]).{8,}$/;
-    
-    if(!regex.test(password)){
+    if (!regex.test(password)) {
         throw new Error("Password must be strong");
     }
+}
 
-    //check for user existance
-    const exist = await User.findOne({where : {email}});
-    if(exist){
-        throw new Error("Email already registered");
+const checkUserExists = async (email) => {
+    const exist = await User.findOne({ where: { email } });
+    if (exist) {
+        throw new Error("Email already Registered");
     }
+};
 
-    const hashed =await bcrypt.hash(password,10);
+const getRole = async (roleName) => {
+    const role = await Role.findOne({ where: { name: roleName } });
+    if (!role) {
+        throw new Error(`${roleName} role not found`);
+    }
+    return role;
+}
 
-    const user = await User.create({
+const createUser = async ({ name, email, password, role_id }) => {
+    const hashed = await bcrypt.hash(password, 10);
+
+    return await User.create({
         name,
-        email,
-        password:hashed,
+        email, password: hashed,
         role_id
     });
+};
 
-    return user;
-}
-// ----------------------------Register End---------------------------------
 
-// ---------------------------- Login start---------------------------------
+//Register start
+exports.register = async ({ name, email, password }) => {
 
-exports.login = async ({email,password})=>{
-//first check user is present or not 
-//then i compare the entered password and stored password
-//then i generate token
+    if (!name || !email || !password) {
+        //if not provided throw Error
+        throw new Error("All feilds are required");
+    }
 
-    const user = await User.findOne({where  :{email}});
-    if(!user){
+    validatePassword(password);
+    await checkUserExists(email);
+
+    const role = await getRole("Candidate");
+
+    return await createUser({
+        name,
+        email, password,
+        role_id: role.id
+    });
+
+
+
+};
+// Register End
+
+//start create Admin
+exports.createRecruiter = async ({ name, email, password }) => {
+
+    if (!name || !email || !password) {
+
+        throw new Error("All feilds are required");
+    }
+
+    validatePassword(password);
+    await checkUserExists(email);
+
+    const role = await getRole("Recruiter");
+
+    return await createUser({
+        name,
+        email, password,
+        role_id: role.id
+    });
+
+
+
+};
+//end
+
+
+
+// Login start
+
+exports.login = async ({ email, password }) => {
+
+
+    const user = await User.findOne({ where: { email } });
+    if (!user) {
         throw new Error("User not found");
     }
 
-    const match = await bcrypt.compare(password,user.password);
-    if(!match) {
+    const match = await bcrypt.compare(password, user.password);
+    if (!match) {
         throw new Error("Invalid password");
     }
 
-    const token= generateToken(user);
-    return{ user,token};
+    const token = generateToken(user);
+    return { user, token };
 
 }
 
-// ---------------------------- Login End-----------------------------------
+// Login End
+
+
+
+//reset password
+
+

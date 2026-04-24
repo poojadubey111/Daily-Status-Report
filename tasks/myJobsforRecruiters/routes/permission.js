@@ -1,22 +1,16 @@
 const express = require("express");
 const router = express.Router();
 
-const authController = require("../controllers/auth");
+const permissionController = require("../controllers/permission");
 const checkAuth = require("../middlewares/checkAuth");
 const { checkPermission } = require("../middlewares/checkPermission");
 
-router.post("/register", authController.register);
-
 router.post(
-    "/create-recruiter",
+    "/",
     checkAuth,
     checkPermission(),
-    authController.createRecruiter
-)
-router.post("/login", authController.login);
-
-router.post("/logout", checkAuth, authController.logout);
-
+    permissionController.createPermission
+);
 
 
 module.exports = router;
