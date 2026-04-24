@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const {verifyToken} = require("../middleware/auth.middleware");
-const{allowRoles} = require("../middleware/roe.middleware");
+const{allowRoles} = require("../middleware/role.middleware");
 const {
     getProfile,
     getAdminData

@@ -11,7 +11,7 @@ router.get("/test", (req, res) => {
 router.post("/register",controller.register);
 router.post("/login",controller.login);
 router.post("/roles",createRole);
-router.get("/users",controller.getAllUsers);
+router.get("/users",checkAuth(),checkPermsision(),controller.getAllUsers);
 router.post("/permission",controller.createPermission);
 router.post("/rolepermission",controller.createRolePermission);
 

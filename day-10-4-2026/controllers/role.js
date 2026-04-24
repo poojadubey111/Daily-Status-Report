@@ -2,7 +2,8 @@ const authService = require("../services/auth");
 
  {
     tableName: "roles_table" // ✅ change this
-  }exports.createRole = async (req,res)=>{
+  }
+  exports.createRole = async (req,res)=>{
     try{
         const role = await authService.createRole({role_name:req.body.role_name,description:req.body.description});
         res.json(role);

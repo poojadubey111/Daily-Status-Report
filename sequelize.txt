@@ -1,0 +1,391 @@
+models/course.js
+
+module.exports = (sequelize, DataTypes) => {
+  const Course = sequelize.define("Course", {
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+  });
+
+  return Course;
+};
+-----------------------------------------------------------------
+models/student.js
+
+module.exports = (sequelize, DataTypes) => {
+  const Student = sequelize.define("Student", {
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+  });
+
+  return Student;
+};
+-----------------------------------------------------------------
+models.index.js
+const { DataTypes } = require("sequelize");
+const sequelize = require("../db");
+
+const db = {};
+
+db.Course = require("./course")(sequelize, DataTypes);
+db.Student = require("./student")(sequelize, DataTypes);
+
+// 🔥 Association
+db.Course.hasMany(db.Student, {
+  foreignKey: "course_id",
+});
+
+db.Student.belongsTo(db.Course, {
+  foreignKey: "course_id",
+});
+
+db.sequelize = sequelize;
+
+module.exports = db;
+-----------------------------------------------------------------
+
+test.js
+const { Course, Student, sequelize } = require("./models");
+
+async function run() {
+  await sequelize.sync({ force: true });
+
+  // Create Course
+  const course = await Course.create({
+    title: "Node.js",
+  });
+
+  // Create Students
+  const student1 = await Student.create({
+    name: "Pooja",
+    course_id: course.id,
+  });
+
+  const student2 = await Student.create({
+    name: "Rohit",
+    course_id: course.id,
+  });
+
+  // Fetch with relation
+  const data = await Student.findAll({
+    include: Course,
+  });
+
+  console.log(JSON.stringify(data, null, 2));
+}
+
+run();
+____________________________________________________________________________________
+
+Category -> Products
+1 Category ->Many Products
+
+models
+models/category.js
+module.exports = (sequelize,DataTypes)=>{
+  const Category = sequelize.define("Category",{
+          name:DataTypes.STRING,
+
+});
+return category;
+
+}
+----------------------------------------------------
+
+models/product.js
+module.exports= (sequelize,DataTypes)=>{
+      const Product = sequelize.define("Product",{
+               name:DataTypes.STRING,
+               price:DataTypes.INTEGER,
+
+});
+return Product;
+
+}
+----------------------------------------------------------
+//Association
+Category.hasMany(Product,{foreignKey:"category_id"});
+Product.belongsTo(Categor,{foreignKey:"category_id"});
+
+-----------------------------------------------------------
+
+//Insert
+
+const cat = await Category.create({name:"Electronics"});
+
+await Product.create({
+name:"Laptop",
+price:50000,
+category_id:cat.id,
+});
+
+__________________________________________________________________
+User-> Orders
+1 User ->Many Orders
+
+User hasMany(Order,{foreignKey:"user_id});
+Order.belongsTo(User,{foreignKey:"user_id});
+-------------------------------------------------------------------
+const user = await User.create({name:"Pooja"});
+
+await Order.create({
+  total:1000,
+  user_id:user_id,
+});
+--------------------------------------------------------------------
+
+const orders = await Order.findAll({
+include:User,
+});
+
+
+_______________________________________________________________________
+
+example 3:Blog ->Comments
+
+1 Blog ->Many comments
+
+Association
+Blog.hasMany(Comment,{foreignKey:"blog_id"});
+Comment.belongsTo(Blog,{foreignkey:"blog_id});
+-------------------------------------------------------
+
+const blog = await Blog.create({title:"Sequelize gauide"});
+await Comment.create({
+   text:"Great post!",
+   blog_id:blog.id,
+});
+
+______________________________________________________________________
+example 4:Company ->Employees
+1 Company ->Many Employees
+
+
+Association 
+Company.hasMany(Employee,{foreignKey:"company_id"};
+Employee.belongsTo(Company,{foreignKey:"company_id"};
+
+_______________________________________________________________________
+
+example 5 : Teacher ->Student 
+1 Teacher ->many Students 
+
+Teacher.hasMany(Student,{foreignKey:"teacher_id});
+Students.belongsTo(Teacher,{foreignKey:"teacher_id});
+___________________________________________________________________________
+
+Example :School -> Students
+
+1 School ->Many Students
+
+Association
+
+School.hasMany(Student,{foreignKey:"school_id"});
+Student.belongsTo(School,{foreignKey:"school_id"});
+
+__________________________________________________________________________
+
+Example :Author → Books
+1 Author ->Many Books
+
+Association 
+Author.hasMany(Books,{foreignKey:"author_id"});
+Books.belongsTo(Author,{foreignKey:"author_id"});
+__________________________________________________________________________
+
+Example:Hospital ->Patients
+
+1 Hospital -> Many Patients
+Hospital.hasMany(Patient,{"foreignKey:hospital_id"});
+Patient.belongsTo(Hospital,{"foreignKey:hospital_id"});
+
+_________________________________________________________________________
+
+
+Many - To - Many 
+
+
+
+
+
+Candidate
+
+email - Stringunique,notNull
+password - 
+
+
+
+
+
+
+
+_________________________________________________________________________________________
+_________________________________________________________________________________________
+task-My Jobs for Recruiters
+
+
+models/
+models/user.js
+
+module.exports=(sequelize,DataTypes)=>{
+ const User = sequelize.define("User",{
+       id:{
+            type:DataTypes.INTEGER,
+            pimaryKey:true, 
+            autoIncrement: true            
+          },
+       name:{
+              type:DataTypes.STRING,
+              allowNull:false,
+            },
+       email:{
+              type:DataTypes.STRING,
+              allowNull:false,
+              unique:true,
+             },
+       password:{
+              type:DataTypes.STRING,
+              allowNull:false,
+             },
+       role_id:{
+              type: DataTypes.INTEGER,
+              allowNull: false,
+       references:{
+               model:"Role",
+               key:"id"
+             }
+             }
+});
+return User;
+}
+
+
+---------------------------------------------------------------
+models/role.js
+module.exports = (sequelize,DataTypes)=>{
+  const Role = sequelize.define("Role",{
+       id:{
+            type:DataTypes.INTEGER,
+            pimaryKey:true, 
+            autoIncrement: true            
+          },
+       name:{
+              type:DataTypes.STRING,
+              allowNull:false,
+            },
+});
+return Role;
+}
+---------------------------------------------------------------
+module/jobs.js
+module.exports = (sequelize,DataTypes) =>{ 
+   const Jobs = sequelize.define("Jobs",{
+       id:{
+            type:DataTypes.INTEGER,
+            pimaryKey:true, 
+            autoIncrement: true            
+          },
+       title:{
+              type:DataTypes.STRING,
+              allowNull:false,
+            },
+       dscription:{
+              type:DataTypes.STRING,
+              allowNull:false,
+            },
+       recruiter_id: {
+              type: DataTypes.INTEGER,
+              allowNull: false,
+              references: {
+                       model: "Users",  
+                       key: "id"
+      }
+});
+   return Jobs;
+}
+---------------------------------------------------------------
+module/application.js
+
+module.exports = (sequelize,DataTypes)=>{
+        const Application = sequelize.define("Application",{
+        id:{
+             type:DataTypes.INTEGER,
+             primaryKey:true,
+             autoIncrement:true
+           },
+        candidate_id:{
+              type:DataTypes.INTEGER,
+              allowNull:false,
+              references:{
+                        model:"Users",
+                        key:"id"
+           }
+           },
+         job_id:{
+               type:DataTypes.INTEGER,
+               allowNull:false,
+               references:{
+                          model:"Jobs",
+                          key:"id"
+             }
+             }
+        
+});
+}
+------------------------------------------------------------------
+/Associations 
+
+User.hasMany("Jobs",{foreignKey:"recruiter_id:"});
+Jobs.belongsTo("User",{foreignKey:"recruiter_id:"});
+
+
+
+User.belongsToMany("Jobs",{
+     through:"Application",
+     foreignKey:"candidate_id"
+});
+
+Jobs.belongsToMany("User",{
+     through:"Application",
+     foreignKey:"job_id"
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

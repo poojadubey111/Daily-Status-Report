@@ -22,7 +22,7 @@ exports.getAssignedTasks = async(req,res)=>{
         const user = await User.findByPk(id,{
             include:{
                 model:Task,
-                as:'createdTasks',
+                as:'assignedTasks',
                 attributes:['task']
             }
         });

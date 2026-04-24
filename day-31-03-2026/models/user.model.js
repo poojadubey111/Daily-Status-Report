@@ -13,7 +13,7 @@ const User = sequelize.define('User',{
     }
 },
 {
-     schema: 'socialMedia',  
+     schema:'socialmedia',  
   timestamps: true
 });
 

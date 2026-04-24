@@ -5,14 +5,14 @@ app.listen(3000,(req,res)=>{
     console.log("Server is connected on port 3000!")
 });
 
-app.use(express.json());
-app.use(express.urlencoded({extended:false}));
+// app.use(express.json());
+// app.use(express.urlencoded({extended:false}));
 
-app.post('/about',(req,res)=>{
-    res.send(req.body);
+// app.post('/about',(req,res)=>{
+//     res.send(req.body);
   
-})
-app.get('/about',(req,res)=>{
+// })
+// app.get('/about',(req,res)=>{
    
     // res.send(req.hostname);
 
@@ -25,5 +25,8 @@ app.get('/about',(req,res)=>{
     // res.send(req.path);
     // res.send(req.protocol);
     // res.send(req.secure);
-    res.send(req.route);
-})
+    // res.send(req.route);
+// })
+
+
+

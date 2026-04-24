@@ -10,7 +10,7 @@ exports.createUser = async({name,email,password,role_id})=>{
     if(!existRoleId){
         throw new Error("Role id not found");
     }
-
+,
 
 const user=await User.create({
     name,

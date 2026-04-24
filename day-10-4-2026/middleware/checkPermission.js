@@ -15,13 +15,13 @@ exports.checkPermission = ()=>{
                 url:req.url
             },
         })
-        if(!Permission){
+        if(!permission){
             return res.status(403).send("Permission not found");
         }
        const rolePermission = rolePermissionModel.findOne({
         where:{
             role_id:req.user.role_id,
-            permission_id: Permission.id
+            permission_id: permission.id
         }
        })
        if(!rolePermission){

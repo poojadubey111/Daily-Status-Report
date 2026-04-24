@@ -8,7 +8,7 @@ const Post = sequelize.define('Post',{
     }
 },
 {
-     schema: 'socialMedia',  
+     schema:'socialmedia',  
   timestamps: true
 });
 

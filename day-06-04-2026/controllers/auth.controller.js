@@ -1,4 +1,5 @@
 const authService = require("../services/auth.service");
+
 exports.register = async(req,res)=>{
     try{
         const user = await authService.registerUser(req.body);
@@ -10,8 +11,14 @@ exports.register = async(req,res)=>{
 
 exports.login = async(req,res)=>{
     try{
-        const { email,password} =req.body;
+        const { email,password} = req.body;
+
         const data = await authService.loginUser(email,password);
+
+        if (!data) {
+            return res.status(400).json({ error: "Invalid credentials" });
+        }
+
         res.json({
             success:true,
             accessToken:data.accessToken,
@@ -21,12 +28,30 @@ exports.login = async(req,res)=>{
         res.status(400).json({error:err.message});
     }
 };
+
+exports.logout = async (req, res) => {
+    try {
+        const { refreshToken } = req.body;
+
+        const data = await authService.logoutUser(refreshToken);
+
+        res.json({
+            success: true,
+            message: data.message
+        });
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+};
+
 exports.refresh = async(req,res)=>{
     try{
-        const { refreshToken } = req.bod;
+        const { refreshToken } = req.body;
+
         const data = await authService.refreshToken(refreshToken);
+
         res.json(data);
     }catch(err){
         res.status(403).json({error:err.message});
     }
-}
+};
